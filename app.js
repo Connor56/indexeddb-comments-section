@@ -1,4 +1,4 @@
-import { db, storeName } from "./persistence.js";
+import { addComment } from "./persistence.js";
 
 // Get references to our form and list
 const commentForm = document.getElementById("comment-form");
@@ -6,21 +6,19 @@ const nameInput = document.getElementById("name-input");
 const commentInput = document.getElementById("comment-input");
 const commentsList = document.getElementById("comments-list");
 
-// Listen for form submission
+// UPDATE the form submit listener
 commentForm.addEventListener("submit", (event) => {
-  // Prevent the default form submission behavior
   event.preventDefault();
 
-  // Create a comment object with the input values
   const newComment = {
     name: nameInput.value,
     comment: commentInput.value,
     timestamp: new Date(),
   };
 
-  console.log("New comment submitted:", newComment);
+  // Call our new function to save it
+  addComment(newComment);
 
-  // Clear the form fields
   nameInput.value = "";
   commentInput.value = "";
 });
