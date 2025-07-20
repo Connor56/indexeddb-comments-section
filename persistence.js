@@ -80,3 +80,22 @@ export function fetchComments() {
     };
   });
 }
+
+// New function for deleting a comment by its ID
+export function deleteComment(id) {
+  // Set up a transaction
+  const transaction = db.transaction([storeName], "readwrite");
+  const objectStore = transaction.objectStore(storeName);
+
+  // Remove the comment by its ID, the `data-id` comes through as a
+  // string, so it is explicitly converted to a number here.
+  const request = objectStore.delete(Number(id));
+
+  request.onsuccess = () => {
+    console.info(`Comment, with ID ${id}, was deleted successfully.`);
+  };
+
+  request.onerror = (event) => {
+    console.error("Couldn't delete comment, with error:", event.target.error);
+  };
+}
