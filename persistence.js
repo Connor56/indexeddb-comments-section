@@ -60,3 +60,23 @@ export function addComment(comment) {
     console.error("Error adding comment:", event.target.error);
   };
 }
+
+// NEW: Fetch all comments and return them as an array
+export function fetchComments() {
+  const transaction = db.transaction([storeName], "readonly");
+  const objectStore = transaction.objectStore(storeName);
+
+  // Get all the comments in the object store
+  const request = objectStore.getAll();
+
+  return new Promise((resolve, reject) => {
+    request.onsuccess = (event) => {
+      const comments = event.target.result;
+      resolve(comments);
+    };
+
+    request.onerror = (event) => {
+      reject(event.target.error);
+    };
+  });
+}
