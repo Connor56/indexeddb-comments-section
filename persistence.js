@@ -41,3 +41,22 @@ request.onsuccess = (event) => {
   db = event.target.result;
   // We'll load the comments here later
 };
+
+// NEW: Function to add a comment to the DB
+export function addComment(comment) {
+  // Start a "readwrite" transaction
+  const transaction = db.transaction([storeName], "readwrite");
+  const objectStore = transaction.objectStore(storeName);
+
+  // Add the new comment object to the store
+  const request = objectStore.add(comment);
+
+  request.onsuccess = () => {
+    console.log("Comment added to the database!");
+    // We will refresh the displayed comments later
+  };
+
+  request.onerror = (event) => {
+    console.error("Error adding comment:", event.target.error);
+  };
+}
