@@ -1,3 +1,4 @@
+import { db, storeName } from "./persistence.js";
 
 // Get references to our form and list
 const commentForm = document.getElementById("comment-form");
