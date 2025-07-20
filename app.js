@@ -1,4 +1,4 @@
-import { addComment, fetchComments } from "./persistence.js";
+import { addComment, deleteComment, fetchComments } from "./persistence.js";
 
 // Get references to our form and list
 const commentForm = document.getElementById("comment-form");
@@ -24,6 +24,21 @@ commentForm.addEventListener("submit", async (event) => {
 
   nameInput.value = "";
   commentInput.value = "";
+});
+
+// Checks for delete button press in the comment list
+commentsList.addEventListener("click", async (event) => {
+  event.preventDefault();
+
+  if (event.target.classList.contains("delete-btn")) {
+    // Get the data ID attribute from the delete buttons parent comment element
+    const commentId = event.target.parentElement.getAttribute("data-id");
+
+    deleteComment(commentId);
+
+    // Re-render the comments list
+    renderComments();
+  }
 });
 
 // NEW: Function to render a single comment to the DOM
